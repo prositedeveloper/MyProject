@@ -1,0 +1,32 @@
+# Виртуальное окружение
+venv/
+env/
+ENV/
+myvenv/
+
+# Файлы базы данных
+*.sqlite3
+*.db
+
+# Python кеш
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Медиа файлы (загруженные пользователями)
+/media/
+
+# Локальные настройки
+.env
+local_settings.py
+
+# Файлы IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Django статика (после collectstatic)
+/staticfiles/
+/static_root/
