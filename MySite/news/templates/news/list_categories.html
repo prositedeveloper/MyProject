@@ -1,0 +1,5 @@
+{% for item in categories %}
+  <a href="{{ item.get_absolute_url }}" class="list-group-item">
+    {{ item.title }}
+  </a>
+{% endfor %}

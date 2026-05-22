@@ -3,6 +3,11 @@ from news.models import Category
 
 register = template.Library()
 
-@register.simple_tag(name='get_categories')
+@register.simple_tag(name='get_list_categories')
 def get_categories():
     return Category.objects.all()
+
+@register.inclusion_tag('news/list_categories.html')
+def show_categories(limit=10):
+    categories = Category.objects.all()[:limit];
+    return { 'categories': categories }
