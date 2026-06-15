@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 # Create your models here.
 class News(models.Model):
@@ -38,3 +39,17 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['title']
+
+class Comment(models.Model):
+    author = models.CharField(max_length=100, verbose_name='Автор')
+    email = models.EmailField(verbose_name='Email')
+    text = models.TextField(verbose_name='Текст комментария')
+    created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
+
+    def __str__(self):
+        return f'Комментарий от {self.author}'
+    
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['-created_at']
