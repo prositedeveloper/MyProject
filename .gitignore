@@ -29,4 +29,4 @@ local_settings.py
 
 # Django статика (после collectstatic)
 /staticfiles/
-/static_root/
+static_root/
