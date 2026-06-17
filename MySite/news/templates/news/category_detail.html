@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <h1>Категория: {{ category.title }}</h1>
+    
+    <h2>Новости в этой категории:</h2>
+    {% if news_list %}
+        <ul>
+            {% for news in news_list %}
+                <li>
+                    <a href="{% url 'view_news' news.pk %}">{{ news.title }}</a>
+                    - {{ news.published_date|date:"d.m.Y" }}
+                </li>
+            {% empty %}
+                <li>Нет опубликованных новостей в этой категории</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет новостей в этой категории</p>
+    {% endif %}
+  
+    
+    <!-- Ссылка на главную -->
+    <p><a href="{% url 'index' %}">На главную</a></p>
+{% endblock %}
+  

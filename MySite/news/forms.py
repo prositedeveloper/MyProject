@@ -11,10 +11,10 @@ class NewsForm(forms.Form):
         max_length=255, 
         label='Заголовок', 
         validators=[validate_no_digit_start],
-        widget=forms.TextInput(attrs={'class': 'form-control'})  # ✅ Добавлен стиль
+        widget=forms.TextInput(attrs={'class': 'form-control'})  
     )
     content = forms.CharField(
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),  # ✅ Добавлен стиль
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}), 
         label='Текст', 
         required=False
     )
@@ -22,13 +22,13 @@ class NewsForm(forms.Form):
         initial=True, 
         label='Опубликовано',
         required=False,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})  # ✅ Добавлен стиль для checkbox
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})  
     )
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(), 
         label='Категория', 
         empty_label='-----',
-        widget=forms.Select(attrs={'class': 'form-control'})  # ✅ Добавлен стиль
+        widget=forms.Select(attrs={'class': 'form-control'})  
     )
 
 class CommentForm(forms.Form):
@@ -55,7 +55,7 @@ class NewsModelForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-            'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'}),  # ✅ Добавлен стиль для checkbox
+            'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'}),  
             'category': forms.Select(attrs={'class': 'form-control'})
         }
         labels = {
