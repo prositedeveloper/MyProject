@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView as BaseCreateView
 from datetime import datetime
 from django.urls import reverse_lazy
+from .utils import ContextMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     news = News.objects.all()
@@ -59,29 +61,36 @@ def add_comment(request):
 
     return render(request, 'news/add_comment.html', {'form': form})
 
-class NewsListView(ListView):
+class NewsListView(ContextMixin, ListView):
     model = News 
-    template_name = 'news_list.html'
+    template_name = 'news/news_list.html'
     context_object_name = 'news'
+    paginate_by = 6
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница новостей'
-        context['current_time'] = datetime.now()
         return context 
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        return News.objects.filter(is_published=True).select_related()
 
 class ViewNews(DetailView):
     model = News 
     context_object_name = 'news_item'
 
-class NewsCreateView(BaseCreateView):
+class NewsCreateView(LoginRequiredMixin, ContextMixin, BaseCreateView):
     model = News 
     form_class = NewsForm 
     template_name = 'news/news_add.html'
     success_url = reverse_lazy('index')
+
+    raise_exception = True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавление новости'
+        return context
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -89,13 +98,7 @@ class NewsCreateView(BaseCreateView):
         return kwargs
     
     def form_valid(self, form):
-        news = News.objects.create(
-            title=form.cleaned_data['title'],
-            content=form.cleaned_data['content'],
-            is_published=form.cleaned_data['is_published'],
-            category=form.cleaned_data['category'],
-        )
-        return redirect(self.success_url)
+        return super().form_valid(form)
 
 class CategoryDetailView(DetailView):
     model = Category 

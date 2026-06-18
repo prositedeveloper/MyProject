@@ -2,3 +2,92 @@
   <h2>{{ item.title }}</h2>
   <p>{{ item.content }}</p>
 {% endfor %}
+
+{% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <!-- Первая страница -->
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; Первая</a>
+            </li>
+            {% endif %}
+
+            <!-- Предыдущая страница -->
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            </li>
+            {% endif %}
+
+            <!-- Номера страниц -->
+            {% for p in page_obj.paginator.page_range %}
+                {% if page_obj.number == p %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ p }}</span>
+                </li>
+                {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Следующая страница -->
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            </li>
+            {% endif %}
+
+            <!-- Последняя страница -->
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Информация о страницах -->
+    <div class="text-center text-muted">
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        (Всего новостей: {{ page_obj.paginator.count }})
+    </div>
+
+    <!-- Дополнительная информация о текущей странице -->
+    <div class="text-center mt-2">
+        <span class="badge bg-primary">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </span>
+        <span class="badge bg-secondary">
+            Всего новостей: {{ page_obj.paginator.count }}
+        </span>
+    </div>
+    {% endif %}
+
+
+    <footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="text-muted">
+                    &copy; {{ current_year }} Мой новостной сайт
+                </span>
+            </div>
+            <div class="col-md-6 text-end">
+                <span class="text-muted">
+                    Все права защищены
+                </span>
+            </div>
+        </div>
+        <!-- Дополнительная информация -->
+        <div class="row mt-2">
+            <div class="col-12 text-center">
+                <small class="text-muted">
+                    Текущее время: {{ current_time }}
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>

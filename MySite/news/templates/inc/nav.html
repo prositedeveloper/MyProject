@@ -15,7 +15,29 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_comment' %}">Добавить комментарий</a>
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="nav-link text-light">
+                        <i class="bi bi-person-circle"></i> 
+                        <p style="color: black;">{{ user.username }}</p>
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Выход</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="">Вход</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Регистрация</a>
+                </li>
+                {% endif %}
             </ul>
+            
         </div>
+        
     </div>
+
+    
 </nav>

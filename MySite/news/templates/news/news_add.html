@@ -2,7 +2,13 @@
 <div class="container">
   <h1 style="color: black">📰 Добавить новость</h1>
 
-  <!-- Отображение сообщений об ошибках -->
+  <!-- Сообщение для авторизованных пользователей -->
+  {% if user.is_authenticated %}
+  <div class="alert alert-info">
+    <strong>Добро пожаловать, {{ user.username }}!</strong>
+    Вы можете добавить новую новость.
+  </div>
+
   {% if form.errors %}
   <div class="alert alert-danger">
     <strong>Ошибка!</strong> Пожалуйста, исправьте следующие ошибки:
@@ -14,15 +20,17 @@
       {% endfor %}
     </ul>
   </div>
-  {% endif %}
 
-  <!-- Форма -->
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <!-- Заголовок -->
     <div class="form-group">
-      <label for="{{ form.title.id_for_label }}" class="form-label" style="color: black">
+      <label
+        for="{{ form.title.id_for_label }}"
+        class="form-label"
+        style="color: black"
+      >
         {{ form.title.label }} {% if form.title.field.required %}
         <span class="text-danger">*</span>
         {% endif %}
@@ -40,7 +48,11 @@
 
     <!-- Контент -->
     <div class="form-group">
-      <label for="{{ form.content.id_for_label }}" class="form-label" style="color: black">
+      <label
+        for="{{ form.content.id_for_label }}"
+        class="form-label"
+        style="color: black"
+      >
         {{ form.content.label }}
       </label>
       {{ form.content }} {% if form.content.help_text %}
@@ -56,7 +68,11 @@
 
     <!-- Категория -->
     <div class="form-group">
-      <label for="{{ form.category.id_for_label }}" class="form-label" style="color: black">
+      <label
+        for="{{ form.category.id_for_label }}"
+        class="form-label"
+        style="color: black"
+      >
         {{ form.category.label }} {% if form.category.field.required %}
         <span class="text-danger">*</span>
         {% endif %}
@@ -76,7 +92,7 @@
       <label
         for="{{ form.is_published.id_for_label }}"
         class="form-check-label"
-        style="color: black;"
+        style="color: black"
       >
         {{ form.is_published.label }}
       </label>
@@ -95,5 +111,29 @@
       <a href="{% url 'index' %}" class="btn btn-secondary">❌ Отмена</a>
     </div>
   </form>
+  {% else %}
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">
+      <i class="bi bi-exclamation-triangle"></i>
+      Только для авторизованных!
+    </h4>
+    <p>
+      Для добавления новостей необходимо <strong>авторизоваться</strong>
+      на сайте.
+    </p>
+    <hr />
+    <p class="mb-0">
+      <a href="" class="btn btn-primary">
+        <i class="bi bi-box-arrow-in-right"></i> Войти
+      </a>
+      <a href="" class="btn btn-success">
+        <i class="bi bi-person-plus"></i> Зарегистрироваться
+      </a>
+      <a href="" class="btn btn-secondary">
+        <i class="bi bi-house"></i> На главную
+      </a>
+    </p>
+  </div>
+  {% endif %} {% endif %}
 </div>
 {% endblock %}

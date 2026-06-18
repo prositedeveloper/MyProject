@@ -45,7 +45,7 @@ class Comment(models.Model):
     email = models.EmailField(verbose_name='Email')
     text = models.TextField(verbose_name='Текст комментария')
     created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
-
+    
     def __str__(self):
         return f'Комментарий от {self.author}'
     
